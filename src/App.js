@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Board from './components/Board'
 import FacebookLogin from 'react-facebook-login';
-
+import GoogleLogin from 'react-google-login';
 
 
 class App extends Component {
@@ -26,13 +26,9 @@ class App extends Component {
 render() {
 
   if (this.props)
+
     return (
-      <div> <FacebookLogin
-      appId="1088597931155576"
-      autoLoad={true}
-      fields="name,email,picture"
-      onClick={componentClicked}
-      callback={responseFacebook} />,
+      <div> 
         <h1>Tic Tac Toe</h1>
         <ul>
           {
@@ -50,3 +46,10 @@ render() {
 }
 
 export default App;
+
+{/* <FacebookLogin
+      // appId="1088597931155576"
+      // autoLoad={true}
+      // fields="name,email,picture"
+      // onClick={componentClicked}
+      // callback={responseFacebook} />, */}
