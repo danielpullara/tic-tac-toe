@@ -9,10 +9,11 @@ export default class Board extends Component {
         if (squareList[i] === "") {
         if (this.props.nextPlayer) squareList[i] = "X";
         else squareList[i] = "0" 
-        let obj = { squares:squareList,nextPlayer: !this.props.nextPlayer};
-        this.props.setParentState(obj);          
+        console.log(this.props.history)
+        this.props.setParentState({ squares:squareList,nextPlayer: !this.props.nextPlayer,history:[...this.props.history,{squares:squareList,nextPlayer:!this.props.nextPlayer}]})
+            
         }
-    }
+    } 
     checkGameIsOver(squares) {
         const winCase = [
           [0, 1, 2],
@@ -31,7 +32,7 @@ export default class Board extends Component {
           }
         }
         return null;
-      }
+      } 
     
     render() {  
         let status= ``;
