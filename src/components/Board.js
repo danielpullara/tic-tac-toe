@@ -38,6 +38,7 @@ export default class Board extends Component {
         let status= ``;
         let winner = this.checkGameIsOver();
         if (winner){
+            this.props.postData();
             status = `winner is ${winner}`
         }else {
             status = this.props.nextPlayer ? `nextPlayer is O` : `nextPlayer is X`
