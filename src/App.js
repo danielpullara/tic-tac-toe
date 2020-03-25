@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './App.css';
 import Board from './components/Board'
 import FacebookLogin from 'react-facebook-login';
-import GoogleLogin from 'react-google-login';
 
 
 class App extends Component {
@@ -12,6 +11,7 @@ class App extends Component {
       squares: ['', '', '', '', '', '', '', '', ''],
       nextPlayer: false,
       history: [],
+      user: ''
     }
   }
   setParentState = (obj) => {
@@ -23,13 +23,23 @@ class App extends Component {
     this.setState({ squares: item.squares, nextPlater: item.nextPlayer, history: this.state.history.filter((i, e)=> e<= index)})
 }
 
+responseFacebook = (response) => {
+  console.log("result from facebook", response);
+  this.setState({user: response.name})
+}
+
 render() {
 
-  if (this.props)
-
+  if (this.props) 
     return (
       <div> 
+        <FacebookLogin
+      appId="200951591212303"
+      autoLoad={true}
+      fields="name,email,picture"
+      callback={this.responseFacebook} />
         <h1>Tic Tac Toe</h1>
+    <h2> User Info : {this.state.user}</h2>
         <ul>
           {
             this.state.history.map((item, index) => {
@@ -47,9 +57,4 @@ render() {
 
 export default App;
 
-{/* <FacebookLogin
-      // appId="1088597931155576"
-      // autoLoad={true}
-      // fields="name,email,picture"
-      // onClick={componentClicked}
-      // callback={responseFacebook} />, */}
+
