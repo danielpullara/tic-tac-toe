@@ -10,8 +10,9 @@ class App extends Component {
     this.state = {
       squares: ['', '', '', '', '', '', '', '', ''],
       nextPlayer: false,
-      history: [],
-      user: ''
+      history: [], 
+      user: '',
+      topRank: [],
     }
   }
   setParentState = (obj) => {
@@ -28,15 +29,15 @@ class App extends Component {
     this.setState({ user: response.name })
   }
 
-  postData = async() => {
+  postData = async(duration) => {
     console.log("here")
     let data = new URLSearchParams();
     data.append("player", this.state.user);
-    data.append("score", "3");
+    data.append("score", duration);
 
     const url = `http://ftw-highscores.herokuapp.com/tictactoe-dev`;
     
-
+  
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -46,12 +47,14 @@ class App extends Component {
       json: true
     });
     console.log("ddd", response)
+    this.getdata();
+    
   }
   getdata = async() =>{
     const url = `http://ftw-highscores.herokuapp.com/tictactoe-dev`;
     let result = await fetch(url);
     let data = await result.json ();
-    console.log("data from api", data)
+    this.setState({topRank: data.items})
   }
 
   render() {
@@ -60,9 +63,9 @@ class App extends Component {
       return (
         <FacebookLogin
           appId="200951591212303"
-          autoLoad={true}
+          autoLoad={false}
           fields="name,email,picture"
-          callback={this.responseFacebook} />
+          callback={resp => this.responseFacebook(resp)} />
       )
     }
     return (
@@ -70,7 +73,7 @@ class App extends Component {
 
         <h1>Tic Tac Toe</h1>
         <h2> User Info : {this.state.user}</h2>
-        <ul>
+        <ul> 
           {
             this.state.history.map((item, index) => {
               return (<li><button onClick={() => this.showPast(item, index)} >go to move {index + 1}</button></li>)
@@ -78,6 +81,11 @@ class App extends Component {
           }
         </ul>
         <Board postData={this.postData} squares={this.state.squares} nextPlayer={this.state.nextPlayer} history={this.state.history} setParentState={this.setParentState} />
+        <ol>Top Score {this.state.topRank.map((item)=>{
+            return (<li>{item.player}:{item.score}</li>)
+        })
+        }
+         </ol>
       </div >
     );
 
