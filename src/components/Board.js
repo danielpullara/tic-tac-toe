@@ -53,7 +53,7 @@ export default class Board extends Component {
         if (winner) {
             let duration = Date.now() - startTime;
             this.props.postData(duration);
-            status = `winner is ${winner}`
+            status = `winner is ${winner}` 
             gameOver = true;
         } else {
             status = this.props.nextPlayer ? `nextPlayer is O` : `nextPlayer is X`
